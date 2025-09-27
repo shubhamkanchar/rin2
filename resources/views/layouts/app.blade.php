@@ -53,6 +53,35 @@
                                 </li>
                             @endif
                         @else
+                            <li class="nav-item">
+                                <a class="nav-link" role="button" href="{{route('notifications.post')}}">
+                                    Send Notification
+                                </a>
+                            </li>
+                            <li class="nav-item position-relative dropdown">
+                                <a id="navbarDropdown1" class="nav-link dropdown-toggle" role="button"
+                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    <i class="bi bi-bell fs-5"></i>
+                                    @if ($notificationCount > 0)
+                                        <span
+                                            class="position-absolute top-25 start-50 translate-middle badge rounded-pill bg-danger">
+                                            {{ $notificationCount }}
+                                        </span>
+                                    @endif
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown1">
+                                    @foreach ($notifications as $notification)
+                                        <a class="dropdown-item"
+                                            href="{{ route('notifications.markAsRead', [$notification->id]) }}">
+                                            {{ $notification->data['title'] }}
+                                        </a>
+                                    @endforeach
+                                    <a class="dropdown-item text-primary" href="{{ route('notifications.readAll') }}">
+                                        Mark all as read
+                                    </a>
+                                </div>
+                            </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -60,13 +89,16 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('notifications.index') }}">
+                                        Notification
+                                    </a>
                                     <a class="dropdown-item" href="{{ route('setting') }}">
-                                        {{ __('Setting') }}
+                                        Setting
                                     </a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                         onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                        Logout
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -74,6 +106,7 @@
                                     </form>
                                 </div>
                             </li>
+                            
                         @endguest
                     </ul>
                 </div>

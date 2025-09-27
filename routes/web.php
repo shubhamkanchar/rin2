@@ -12,3 +12,13 @@ Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/setting', [UsersController::class, 'setting'])->name('setting');
+
+
+
+Route::get('/notifications/form', [NotificationController::class, 'notificationForm'])->name('notifications.post');
+Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+Route::middleware(['auth'])->group(function () {
+    Route::post('/notifications/send', [NotificationController::class, 'send'])->name('notifications.send');
+    Route::get('/notifications/{id}/read', [NotificationController::class,'markAsRead'])->name('notifications.markAsRead');
+    Route::get('/notifications/read-all',[NotificationController::class,'markAllRead'])->name('notifications.readAll');
+});

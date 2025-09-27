@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DataTables\UsersDataTable;
 use App\Models\User;
+use App\Notifications\UserPostNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
