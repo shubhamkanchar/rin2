@@ -15,6 +15,7 @@
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
     <!-- Scripts -->
+    @notifyCss
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 
@@ -40,6 +41,11 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->
+                        <li class="nav-item">
+                            <a class="nav-link" role="button" href="{{route('notifications.post')}}">
+                                Send Notification
+                            </a>
+                        </li>
                         @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">
@@ -53,15 +59,11 @@
                                 </li>
                             @endif
                         @else
-                            <li class="nav-item">
-                                <a class="nav-link" role="button" href="{{route('notifications.post')}}">
-                                    Send Notification
-                                </a>
-                            </li>
+                            
                             <li class="nav-item position-relative dropdown">
                                 <a id="navbarDropdown1" class="nav-link dropdown-toggle" role="button"
                                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    <i class="bi bi-bell fs-5"></i>
+                                    <i class="bi bi-bell"></i>
                                     @if ($notificationCount > 0)
                                         <span
                                             class="position-absolute top-25 start-50 translate-middle badge rounded-pill bg-danger">
@@ -74,12 +76,14 @@
                                     @foreach ($notifications as $notification)
                                         <a class="dropdown-item"
                                             href="{{ route('notifications.markAsRead', [$notification->id]) }}">
-                                            {{ $notification->data['title'] }}
+                                            {{ $notification->data['text'] }}
                                         </a>
                                     @endforeach
+                                    @if ($notificationCount > 0)
                                     <a class="dropdown-item text-primary" href="{{ route('notifications.readAll') }}">
                                         Mark all as read
                                     </a>
+                                    @endif
                                 </div>
                             </li>
                             <li class="nav-item dropdown">
@@ -89,6 +93,9 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('home') }}">
+                                        Home
+                                    </a>
                                     <a class="dropdown-item" href="{{ route('notifications.index') }}">
                                         Notification
                                     </a>
@@ -118,6 +125,8 @@
         </main>
     </div>
     @stack('scripts')
+    <x-notify::notify />
+    @notifyJs
 </body>
 
 </html>

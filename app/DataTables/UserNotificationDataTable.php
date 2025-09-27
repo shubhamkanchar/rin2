@@ -25,13 +25,13 @@ class UserNotificationDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('type', function($row){
-                return $row->data['type'];
+                return ucfirst($row->data['type']);
             })
             ->addColumn('message', function($row){
-                return $row->data['title'];
+                return $row->data['text'];
             })
             ->addColumn('expires_at', function($row){
-                return date('Y-m-d h:i:m',strtotime($row->expires_at));
+                return $row->expires_at ? date('Y-m-d h:i:m',strtotime($row->expires_at)) : '-';
             })
             ->addColumn('created_at', function($row){
                 return date('Y-m-d h:i:m',strtotime($row->created_at));

@@ -10,6 +10,7 @@
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
         "laravel/ui": "^4.6",
+        "mckenziearts/laravel-notify": "^2.7",
         "yajra/laravel-datatables": "^12.0"
     },
     "require-dev": {

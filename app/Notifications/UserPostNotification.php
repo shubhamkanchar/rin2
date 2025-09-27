@@ -40,8 +40,7 @@ class UserPostNotification extends Notification
     {
         return [
             'type' => $this->type,
-            'title' => $this->text,
-            'expires_at' => $this->expiresAt,
+            'text' => $this->text,
         ];
     }
 }

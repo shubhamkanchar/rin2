@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Channels\DatabaseChannel;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades;
 use Illuminate\Support\ServiceProvider;
@@ -28,18 +29,27 @@ class AppServiceProvider extends ServiceProvider
         Facades\View::composer('layouts.app', function (View $view) {
             $user = Auth::user();
             if($user){
-                $notifications = $user
-                    ->unreadNotifications()
-                    ->where(function ($query) {
-                        $query->whereNull('expires_at')
-                            ->orWhere('expires_at', '>', now());
-                    })
-                    ->get(); 
-                $notificationCount = $notifications->count();
-                $view->with([
-                    'notifications' => $notifications,
-                    'notificationCount' => $notificationCount 
-                ]);
+                try{
+                    $notifications = $user
+                        ->unreadNotifications()
+                        ->where(function ($query) {
+                            $query->whereNull('expires_at')
+                                ->orWhere('expires_at', '>', now());
+                        })
+                        ->get(); 
+                    $notificationCount = $notifications->count();
+                    $view->with([
+                        'notifications' => $notifications,
+                        'notificationCount' => $notificationCount 
+                    ]);
+                }catch(Exception $e){
+                    $notifications = [];
+                    $notificationCount = 0;
+                    $view->with([
+                        'notifications' => $notifications,
+                        'notificationCount' => $notificationCount 
+                    ]);
+                }
             }
         });
     }
