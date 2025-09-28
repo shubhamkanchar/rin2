@@ -20,11 +20,20 @@
 </head>
 
 <body>
+    <!-- Full Page Loader -->
+    <div id="fullPageLoader" style="display:none;">
+        <div class="loader-overlay">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </div>
+
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                    Rin2
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -42,7 +51,7 @@
                     <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->
                         <li class="nav-item">
-                            <a class="nav-link" role="button" href="{{route('notifications.post')}}">
+                            <a class="nav-link" role="button" href="{{ route('notifications.post') }}">
                                 Send Notification
                             </a>
                         </li>
@@ -59,7 +68,6 @@
                                 </li>
                             @endif
                         @else
-                            
                             <li class="nav-item position-relative dropdown">
                                 <a id="navbarDropdown1" class="nav-link dropdown-toggle" role="button"
                                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -80,9 +88,9 @@
                                         </a>
                                     @endforeach
                                     @if ($notificationCount > 0)
-                                    <a class="dropdown-item text-primary" href="{{ route('notifications.readAll') }}">
-                                        Mark all as read
-                                    </a>
+                                        <a class="dropdown-item text-primary" href="{{ route('notifications.readAll') }}">
+                                            Mark all as read
+                                        </a>
                                     @endif
                                 </div>
                             </li>
@@ -113,7 +121,7 @@
                                     </form>
                                 </div>
                             </li>
-                            
+
                         @endguest
                     </ul>
                 </div>
@@ -127,6 +135,13 @@
     @stack('scripts')
     <x-notify::notify />
     @notifyJs
+    <script type="module">
+        $(document).ready(function() {
+            $('form').on('submit', function() {
+                $('#fullPageLoader').fadeIn();
+            });
+        });
+    </script>
 </body>
 
 </html>

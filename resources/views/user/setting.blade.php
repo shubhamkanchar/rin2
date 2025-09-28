@@ -27,7 +27,7 @@
                             <div class="mb-3">
                                 <label for="phone" class="form-label">Phone Number</label>
                                 <input type="tel" class="form-control" id="phone" name="phone"
-                                    placeholder="+1234567890" value="{{auth()->user()->phone}}">
+                                    placeholder="+1234567890" value="{{auth()->user()->phone ?? ''}}">
                                 @error('phone')
                                 <span class="text-danger">{{$message}}</span>
                                 @enderror
